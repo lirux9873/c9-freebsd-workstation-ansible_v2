@@ -51,12 +51,14 @@ sudo ansible-playbook local.yml
   --check: Run in dry-run mode without making any actual changes to the system.
 
 ```sh
-sudo ansible-pull \
-  --clean \
-  --url https://github.com/lirux9873/c9-freebsd-workstation-ansible_v2.git \
-  --checkout main \
-  --inventory localhost, \
-  local.yml
+sudo /usr/local/bin/ansible-pull \
+    --clean \
+    --checkout "main" \
+    --directory "/var/db/ansible-pull/c9-freebsd-workstation" \
+    --inventory "/var/db/ansible-pull/c9-freebsd-workstation/inventory/hosts.yml" \
+    --url "https://github.com/lirux9873/c9-freebsd-workstation-ansible.git" \
+    local.yml \
+    "$@"
 ```
 
 ## Configuration
