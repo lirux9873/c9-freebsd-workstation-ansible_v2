@@ -5,24 +5,6 @@
   gather_facts: false
   become: true
 
-  tasks:
-    - name: Install Ansible collections from requirements
-      ansible.builtin.command:
-        argv:
-          - ansible-galaxy
-          - collection
-          - install
-          - --requirements-file
-          - "{{ playbook_dir }}/requirements.yml"
-          - --collections-path
-          - "{{ playbook_dir }}/collections"
-      register: galaxy_install_result
-      changed_when: >-
-        'Nothing to do' not in galaxy_install_result.stdout
-        and
-        'All requested collections are already installed'
-        not in galaxy_install_result.stdout
-
 - name: Configure FreeBSD workstation
   hosts: localhost
   connection: local

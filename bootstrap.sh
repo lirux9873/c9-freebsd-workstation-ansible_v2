@@ -18,7 +18,7 @@ fi
 
 # Update the system and install required packages
 pkg update
-pkg install -y ansible-core git bash ca_root_nss
+pkg install -y py312-ansible-core git bash ca_root_nss
 
 # Install the community.general collection if not already installed
 if ! ansible-galaxy collection list community.general >/dev/null 2>&1; then
