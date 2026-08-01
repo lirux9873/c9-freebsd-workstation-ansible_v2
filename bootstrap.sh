@@ -5,6 +5,7 @@ set -eu
 REPOSITORY_URL="${REPOSITORY_URL:-https://github.com/lirux9873/c9-freebsd-workstation-ansible.git}"
 REPOSITORY_BRANCH="${REPOSITORY_BRANCH:-main}"
 WORK_DIRECTORY="${WORK_DIRECTORY:-/var/db/ansible-pull/c9-freebsd-workstation}"
+COLLECTION_PATH="${COLLECTION_PATH:-/usr/local/share/py312-ansible/collections}"
 
 if [ "$(uname -s)" != "FreeBSD" ]; then
     printf '%s\n' "ERROR: This command supports FreeBSD only." >&2
@@ -22,7 +23,7 @@ pkg install -y py312-ansible-core git bash ca_root_nss
 
 # Install the community.general collection if not already installed
 if ! ansible-galaxy collection list community.general >/dev/null 2>&1; then
-    ansible-galaxy collection install community.general
+    ansible-galaxy collection install community.general --collections-path "$COLLECTION_PATH"
 fi
 
 # Run ansible-pull to apply the configuration

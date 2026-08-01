@@ -35,6 +35,9 @@
     version: "{{ flexipatch_finalizer.version }}"
     update: "{{ suckless_flexipatch_git_update }}"
     force: "{{ suckless_flexipatch_git_force }}"
+    accept_hostkey: yes
+    # TODO: Use a dedicated key for this repository instead of borrowing the user's key
+    key_file: "/home/daniel/.ssh/id_ed25519"  # Borrowing the key to authenticate
 
 - name: Clone or update Suckless repositories
   ansible.builtin.git:
@@ -43,6 +46,10 @@
     version: "{{ item.version }}"
     update: "{{ suckless_flexipatch_git_update }}"
     force: "{{ item.force | default(suckless_flexipatch_git_force) }}"
+    accept_hostkey: yes
+    # TODO: Use a dedicated key for this repository instead of borrowing the user's key
+    key_file: "/home/daniel/.ssh/id_ed25519"  # Borrowing the key to authenticate
+
   loop: "{{ flexipatch_items }}"
   loop_control:
     label: "{{ item.name }}"
