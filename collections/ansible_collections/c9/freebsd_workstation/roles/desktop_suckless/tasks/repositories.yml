@@ -18,43 +18,54 @@
       - desktop_suckless_git_private_key_stat.stat.exists
       - desktop_suckless_git_private_key_stat.stat.isreg
     fail_msg: >-
-      The SSH private key required for the private repositories was not found:
-      {{ desktop_suckless_git_private_key }}
+      The SSH private key required for the private Git repositories
+      was not found at {{ desktop_suckless_git_private_key }}.
 
-- name: Create source parent directories
+- name: Set Git SSH private key permissions
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "{{ desktop_suckless_git_private_key }}"
+    state: file
+    owner: "{{ desktop_suckless_git_user }}"
+    group: "{{ desktop_suckless_git_group }}"
+    mode: "0600"
+  when: desktop_suckless_git_manage_key_permissions | bool
+
+- name: Check Git SSH known hosts file
+  ansible.builtin.stat:
+    path: "{{ desktop_suckless_git_known_hosts }}"
+  register: desktop_suckless_git_known_hosts_stat
+
+- name: Create Git SSH known hosts file
+  ansible.builtin.file:
+    path: "{{ desktop_suckless_git_known_hosts }}"
+    state: touch
+    owner: "{{ desktop_suckless_git_user }}"
+    group: "{{ desktop_suckless_git_group }}"
+    mode: "0600"
+    modification_time: preserve
+    access_time: preserve
+  when: not desktop_suckless_git_known_hosts_stat.stat.exists
+
+- name: Install configured Git SSH host keys
+  ansible.builtin.known_hosts:
+    path: "{{ desktop_suckless_git_known_hosts }}"
+    name: "{{ item.name }}"
+    key: "{{ item.key }}"
+    state: present
+  loop: "{{ desktop_suckless_git_known_hosts_entries }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: desktop_suckless_git_known_hosts_entries | length > 0
+
+- name: Create Suckless source root
+  ansible.builtin.file:
+    path: "{{ suckless_flexipatch_source_root }}"
     state: directory
     owner: "{{ suckless_flexipatch_owner }}"
     group: "{{ suckless_flexipatch_group }}"
     mode: "0755"
-  loop: >-
-    {{
-      (
-        flexipatch_items
-        | selectattr('enabled', 'undefined')
-        | map(attribute='src')
-        | map('dirname')
-        | list
-      )
-      +
-      (
-        flexipatch_items
-        | selectattr('enabled', 'defined')
-        | selectattr('enabled', 'equalto', true)
-        | map(attribute='src')
-        | map('dirname')
-        | list
-      )
-      +
-      [flexipatch_finalizer.src | dirname]
-    )
-    | unique
-  }}
-  loop_control:
-    label: "{{ item }}"
 
-- name: Clone or update finalizer repository
+- name: Clone or update Flexipatch finalizer repository
   ansible.builtin.git:
     repo: "{{ flexipatch_finalizer.repo }}"
     dest: "{{ flexipatch_finalizer.src }}"
@@ -65,7 +76,7 @@
     accept_hostkey: "{{ desktop_suckless_git_accept_hostkey }}"
   register: flexipatch_finalizer_repository_result
 
-- name: Clone or update Suckless repositories
+- name: Clone or update Suckless Flexipatch repositories
   ansible.builtin.git:
     repo: "{{ item.repo }}"
     dest: "{{ item.src }}"
@@ -80,7 +91,7 @@
   when: item.enabled | default(true) | bool
   register: flexipatch_repository_results
 
-- name: Set ownership of finalizer repository
+- name: Set ownership of Flexipatch finalizer repository
   ansible.builtin.file:
     path: "{{ flexipatch_finalizer.src }}"
     state: directory
@@ -88,7 +99,7 @@
     group: "{{ suckless_flexipatch_group }}"
     recurse: true
 
-- name: Set ownership of Suckless repositories
+- name: Set ownership of Suckless Flexipatch repositories
   ansible.builtin.file:
     path: "{{ item.src }}"
     state: directory
@@ -100,21 +111,21 @@
     label: "{{ item.name }}"
   when: item.enabled | default(true) | bool
 
-- name: Verify finalizer script
+- name: Check Flexipatch finalizer script
   ansible.builtin.stat:
     path: "{{ flexipatch_finalizer.script }}"
   register: flexipatch_finalizer_script_stat
 
-- name: Assert finalizer script exists
+- name: Verify Flexipatch finalizer script exists
   ansible.builtin.assert:
     that:
       - flexipatch_finalizer_script_stat.stat.exists
       - flexipatch_finalizer_script_stat.stat.isreg
     fail_msg: >-
-      Finalizer script not found:
-      {{ flexipatch_finalizer.script }}
+      The Flexipatch finalizer script was not found at
+      {{ flexipatch_finalizer.script }}.
 
-- name: Make finalizer executable
+- name: Make Flexipatch finalizer script executable
   ansible.builtin.file:
     path: "{{ flexipatch_finalizer.script }}"
     state: file

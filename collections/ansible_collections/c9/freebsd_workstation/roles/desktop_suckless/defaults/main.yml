@@ -17,10 +17,14 @@ suckless_flexipatch_packages:
   - fontconfig
   - freetype2
 
+suckless_flexipatch_source_root: /usr/local/src
+
 suckless_flexipatch_owner: root
 suckless_flexipatch_group: wheel
-suckless_flexipatch_git_force: false
+
 suckless_flexipatch_git_update: true
+suckless_flexipatch_git_force: false
+
 suckless_flexipatch_recreate_final_directories: true
 suckless_flexipatch_make_command: /usr/local/bin/gmake
 suckless_flexipatch_make_environment:
@@ -28,3 +32,15 @@ suckless_flexipatch_make_environment:
 
 flexipatch_items: []
 flexipatch_finalizer: {}
+
+#desktop_suckless_git_user: root
+#desktop_suckless_git_group: wheel
+#
+#desktop_suckless_git_ssh_directory: /root/.ssh
+#desktop_suckless_git_private_key: /root/.ssh/id_ed25519
+#desktop_suckless_git_known_hosts: /root/.ssh/known_hosts
+#
+#desktop_suckless_git_accept_hostkey: true
+#desktop_suckless_git_manage_key_permissions: true
+#
+#desktop_suckless_git_known_hosts_entries: []
