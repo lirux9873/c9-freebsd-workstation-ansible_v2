@@ -13,7 +13,7 @@ tags:
   - desktop
   - suckless
 dependencies: {}
-repository: https://github.com/lirux9873/c9-freebsd-workstation-ansible
+repository: https://github.com/lirux9873/c9-freebsd-workstation-ansible_v2
 build_ignore:
   - .git
   - .gitignore
