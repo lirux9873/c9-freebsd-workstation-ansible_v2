@@ -9,7 +9,7 @@
     fail_msg: "The workstation font variables must be lists."
 
 - name: Install fontconfig
-  ansible.builtin.package:
+  community.general.pkgng:
     name: fontconfig
     state: present
 
@@ -23,7 +23,7 @@
   loop: "{{ workstation_font_directories }}"
 
 - name: Install system font packages
-  ansible.builtin.package:
+  community.general.pkgng:
     name: "{{ workstation_font_packages }}"
     state: present
   when: workstation_font_packages | length > 0

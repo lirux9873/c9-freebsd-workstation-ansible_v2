@@ -56,7 +56,7 @@ sudo /usr/local/bin/ansible-pull \
     --checkout "main" \
     --directory "/var/db/ansible-pull/c9-freebsd-workstation" \
     --inventory "/var/db/ansible-pull/c9-freebsd-workstation/inventory/hosts.yml" \
-    --url "https://github.com/lirux9873/c9-freebsd-workstation-ansible.git" \
+    --url "https://github.com/lirux9873/c9-freebsd-workstation-ansible_v2.git" \
     local.yml \
     "$@"
 ```
