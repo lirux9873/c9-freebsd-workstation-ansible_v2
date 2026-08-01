@@ -16,4 +16,12 @@ workstation_font_packages: >-
     )
     | unique
   }}
-  
+
+desktop_suckless_git_user: root
+desktop_suckless_git_group: wheel
+
+desktop_suckless_git_ssh_directory: /root/.ssh
+desktop_suckless_git_private_key: /home/daniel/.ssh/id_ed25519
+desktop_suckless_git_known_hosts: /root/.ssh/known_hosts
+
+desktop_suckless_git_accept_hostkey: true  

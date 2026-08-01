@@ -17,7 +17,7 @@ workstation_custom_font_files: []
 # Suckless desktop repositories.
 flexipatch_items:
   - name: dwm
-    repo: https://github.com/lirux9873/dwm-flexipatch.git
+    repo: git@github.com:lirux9873/dwm-flexipatch.git
     src: /usr/local/src/dwm-flexipatch
     final: /usr/local/src/dwm-final
     version: master
@@ -26,7 +26,7 @@ flexipatch_items:
     install_args: []
 
   - name: dmenu
-    repo: https://github.com/lirux9873/dmenu-flexipatch.git
+    repo: git@github.com:lirux9873/dmenu-flexipatch.git
     src: /usr/local/src/dmenu-flexipatch
     final: /usr/local/src/dmenu-final
     version: master
@@ -35,7 +35,7 @@ flexipatch_items:
     install_args: []
 
   - name: st
-    repo: https://github.com/lirux9873/st-flexipatch.git
+    repo: git@github.com:lirux9873/st-flexipatch.git
     src: /usr/local/src/st-flexipatch
     final: /usr/local/src/st-final
     version: master

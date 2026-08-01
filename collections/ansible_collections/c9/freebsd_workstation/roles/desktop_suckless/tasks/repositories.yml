@@ -1,4 +1,26 @@
 ---
+- name: Create Git SSH directory
+  ansible.builtin.file:
+    path: "{{ desktop_suckless_git_ssh_directory }}"
+    state: directory
+    owner: "{{ desktop_suckless_git_user }}"
+    group: "{{ desktop_suckless_git_group }}"
+    mode: "0700"
+
+- name: Check Git SSH private key
+  ansible.builtin.stat:
+    path: "{{ desktop_suckless_git_private_key }}"
+  register: desktop_suckless_git_private_key_stat
+
+- name: Verify Git SSH private key exists
+  ansible.builtin.assert:
+    that:
+      - desktop_suckless_git_private_key_stat.stat.exists
+      - desktop_suckless_git_private_key_stat.stat.isreg
+    fail_msg: >-
+      The SSH private key required for the private repositories was not found:
+      {{ desktop_suckless_git_private_key }}
+
 - name: Create source parent directories
   ansible.builtin.file:
     path: "{{ item }}"
@@ -24,32 +46,55 @@
         | map('dirname')
         | list
       )
-      + [flexipatch_finalizer.src | dirname]
-      | unique
-    }}
+      +
+      [flexipatch_finalizer.src | dirname]
+    )
+    | unique
+  }}
+  loop_control:
+    label: "{{ item }}"
 
 - name: Clone or update finalizer repository
   ansible.builtin.git:
     repo: "{{ flexipatch_finalizer.repo }}"
     dest: "{{ flexipatch_finalizer.src }}"
-    version: "{{ flexipatch_finalizer.version }}"
+    version: "{{ flexipatch_finalizer.version | default('HEAD') }}"
     update: "{{ suckless_flexipatch_git_update }}"
     force: "{{ suckless_flexipatch_git_force }}"
-    accept_hostkey: yes
-    # TODO: Use a dedicated key for this repository instead of borrowing the user's key
-    key_file: "/home/daniel/.ssh/id_ed25519"  # Borrowing the key to authenticate
+    key_file: "{{ desktop_suckless_git_private_key }}"
+    accept_hostkey: "{{ desktop_suckless_git_accept_hostkey }}"
+  register: flexipatch_finalizer_repository_result
 
 - name: Clone or update Suckless repositories
   ansible.builtin.git:
     repo: "{{ item.repo }}"
     dest: "{{ item.src }}"
-    version: "{{ item.version }}"
+    version: "{{ item.version | default('HEAD') }}"
     update: "{{ suckless_flexipatch_git_update }}"
     force: "{{ item.force | default(suckless_flexipatch_git_force) }}"
-    accept_hostkey: yes
-    # TODO: Use a dedicated key for this repository instead of borrowing the user's key
-    key_file: "/home/daniel/.ssh/id_ed25519"  # Borrowing the key to authenticate
+    key_file: "{{ desktop_suckless_git_private_key }}"
+    accept_hostkey: "{{ desktop_suckless_git_accept_hostkey }}"
+  loop: "{{ flexipatch_items }}"
+  loop_control:
+    label: "{{ item.name }}: {{ item.repo }}"
+  when: item.enabled | default(true) | bool
+  register: flexipatch_repository_results
 
+- name: Set ownership of finalizer repository
+  ansible.builtin.file:
+    path: "{{ flexipatch_finalizer.src }}"
+    state: directory
+    owner: "{{ suckless_flexipatch_owner }}"
+    group: "{{ suckless_flexipatch_group }}"
+    recurse: true
+
+- name: Set ownership of Suckless repositories
+  ansible.builtin.file:
+    path: "{{ item.src }}"
+    state: directory
+    owner: "{{ suckless_flexipatch_owner }}"
+    group: "{{ suckless_flexipatch_group }}"
+    recurse: true
   loop: "{{ flexipatch_items }}"
   loop_control:
     label: "{{ item.name }}"
@@ -65,7 +110,9 @@
     that:
       - flexipatch_finalizer_script_stat.stat.exists
       - flexipatch_finalizer_script_stat.stat.isreg
-    fail_msg: "Finalizer script not found: {{ flexipatch_finalizer.script }}"
+    fail_msg: >-
+      Finalizer script not found:
+      {{ flexipatch_finalizer.script }}
 
 - name: Make finalizer executable
   ansible.builtin.file:
