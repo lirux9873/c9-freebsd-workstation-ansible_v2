@@ -1,0 +1,3 @@
+---
+# Role defaults for service_ssh.
+service_ssh_enabled: true

@@ -1,0 +1,8 @@
+---
+- name: "jails_base | Placeholder"
+  ansible.builtin.debug:
+    msg: >-
+      Role jails_base is scaffolded but not implemented yet.
+      Replace this task with the role implementation when the feature is enabled.
+  when: jails_base_enabled | bool
+  changed_when: false

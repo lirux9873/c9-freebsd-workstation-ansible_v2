@@ -1,0 +1,8 @@
+---
+- name: "hardware_common_laptop | Placeholder"
+  ansible.builtin.debug:
+    msg: >-
+      Role hardware_common_laptop is scaffolded but not implemented yet.
+      Replace this task with the role implementation when the feature is enabled.
+  when: hardware_common_laptop_enabled | bool
+  changed_when: false

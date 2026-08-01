@@ -1,0 +1,9 @@
+---
+- name: Configure Dell Latitude 5591 profile
+  hosts: localhost
+  connection: local
+  become: true
+  gather_facts: true
+  roles:
+    - c9.freebsd_workstation.hardware_common_laptop
+    - c9.freebsd_workstation.hardware_dell_latitude_5591

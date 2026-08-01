@@ -1,0 +1,8 @@
+---
+- name: "networking_wifi | Placeholder"
+  ansible.builtin.debug:
+    msg: >-
+      Role networking_wifi is scaffolded but not implemented yet.
+      Replace this task with the role implementation when the feature is enabled.
+  when: networking_wifi_enabled | bool
+  changed_when: false

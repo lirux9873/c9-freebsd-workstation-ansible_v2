@@ -1,0 +1,3 @@
+---
+# Role defaults for app_thunderbird.
+app_thunderbird_enabled: true

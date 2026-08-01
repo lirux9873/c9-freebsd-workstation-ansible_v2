@@ -1,0 +1,11 @@
+---
+galaxy_info:
+  author: Daniel Peyer
+  description: Validate supported FreeBSD targets and shared variables.
+  license: MIT
+  min_ansible_version: "2.15"
+  platforms:
+    - name: FreeBSD
+      versions:
+        - all
+dependencies: []

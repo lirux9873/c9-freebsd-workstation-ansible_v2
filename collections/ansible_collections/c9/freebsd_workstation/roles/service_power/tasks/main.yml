@@ -1,0 +1,8 @@
+---
+- name: "service_power | Placeholder"
+  ansible.builtin.debug:
+    msg: >-
+      Role service_power is scaffolded but not implemented yet.
+      Replace this task with the role implementation when the feature is enabled.
+  when: service_power_enabled | bool
+  changed_when: false

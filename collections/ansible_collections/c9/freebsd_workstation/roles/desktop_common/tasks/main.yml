@@ -1,0 +1,8 @@
+---
+- name: "desktop_common | Placeholder"
+  ansible.builtin.debug:
+    msg: >-
+      Role desktop_common is scaffolded but not implemented yet.
+      Replace this task with the role implementation when the feature is enabled.
+  when: desktop_common_enabled | bool
+  changed_when: false

@@ -1,0 +1,30 @@
+---
+desktop_suckless_recommended_font_packages:
+  - nerd-fonts
+  - noto-emoji
+  - font-awesome
+  - terminus-font
+  - inconsolata-ttf
+
+suckless_flexipatch_packages:
+  - bash
+  - git
+  - gmake
+  - pkgconf
+  - libX11
+  - libXft
+  - libXinerama
+  - fontconfig
+  - freetype2
+
+suckless_flexipatch_owner: root
+suckless_flexipatch_group: wheel
+suckless_flexipatch_git_force: false
+suckless_flexipatch_git_update: true
+suckless_flexipatch_recreate_final_directories: true
+suckless_flexipatch_make_command: /usr/local/bin/gmake
+suckless_flexipatch_make_environment:
+  PREFIX: /usr/local
+
+flexipatch_items: []
+flexipatch_finalizer: {}

@@ -1,0 +1,8 @@
+---
+- name: "app_neovim | Placeholder"
+  ansible.builtin.debug:
+    msg: >-
+      Role app_neovim is scaffolded but not implemented yet.
+      Replace this task with the role implementation when the feature is enabled.
+  when: app_neovim_enabled | bool
+  changed_when: false

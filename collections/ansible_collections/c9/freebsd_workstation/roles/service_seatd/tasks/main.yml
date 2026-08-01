@@ -1,0 +1,8 @@
+---
+- name: "service_seatd | Placeholder"
+  ansible.builtin.debug:
+    msg: >-
+      Role service_seatd is scaffolded but not implemented yet.
+      Replace this task with the role implementation when the feature is enabled.
+  when: service_seatd_enabled | bool
+  changed_when: false

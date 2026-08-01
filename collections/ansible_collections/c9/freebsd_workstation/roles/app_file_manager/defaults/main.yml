@@ -1,0 +1,3 @@
+---
+# Role defaults for app_file_manager.
+app_file_manager_enabled: true

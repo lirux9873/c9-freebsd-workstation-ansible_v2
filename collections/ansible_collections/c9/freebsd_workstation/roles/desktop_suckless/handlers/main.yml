@@ -1,0 +1,3 @@
+---
+# Intentionally empty. The role rebuilds on every run because finalized
+# directories are explicitly recreated each time.

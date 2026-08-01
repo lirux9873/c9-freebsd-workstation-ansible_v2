@@ -1,0 +1,17 @@
+---
+- name: Configure FreeBSD workstation base
+  hosts: localhost
+  connection: local
+  become: true
+  gather_facts: true
+  roles:
+    - c9.freebsd_workstation.common_validation
+    - c9.freebsd_workstation.common_packages
+    - c9.freebsd_workstation.common_users
+    - c9.freebsd_workstation.common_sudo
+    - c9.freebsd_workstation.common_localization
+    - c9.freebsd_workstation.common_fonts
+    - c9.freebsd_workstation.service_ntpsec
+    - c9.freebsd_workstation.service_ssh
+    - c9.freebsd_workstation.networking_base
+    - c9.freebsd_workstation.security_base

@@ -1,0 +1,19 @@
+---
+workstation_profile_name: suckless
+
+workstation_profile_font_packages:
+  - nerd-fonts
+  - noto-emoji
+  - font-awesome
+  - terminus-font
+  - inconsolata-ttf
+
+workstation_font_packages: >-
+  {{
+    (
+      workstation_base_font_packages
+      + workstation_profile_font_packages
+    )
+    | unique
+  }}
+  

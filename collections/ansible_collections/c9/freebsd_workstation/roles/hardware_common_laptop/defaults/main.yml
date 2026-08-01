@@ -1,0 +1,3 @@
+---
+# Role defaults for hardware_common_laptop.
+hardware_common_laptop_enabled: true

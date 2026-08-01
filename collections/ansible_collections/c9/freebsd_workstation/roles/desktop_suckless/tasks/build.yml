@@ -1,0 +1,24 @@
+---
+- name: Clean finalized Suckless source trees
+  ansible.builtin.command:
+    argv:
+      - "{{ suckless_flexipatch_make_command }}"
+      - clean
+    chdir: "{{ item.final }}"
+  environment: "{{ suckless_flexipatch_make_environment }}"
+  loop: "{{ flexipatch_items }}"
+  loop_control:
+    label: "{{ item.name }}: gmake clean"
+  when: item.enabled | default(true) | bool
+  changed_when: true
+
+- name: Build finalized Suckless applications
+  ansible.builtin.command:
+    argv: "{{ [suckless_flexipatch_make_command] + (item.make_args | default([])) }}"
+    chdir: "{{ item.final }}"
+  environment: "{{ suckless_flexipatch_make_environment }}"
+  loop: "{{ flexipatch_items }}"
+  loop_control:
+    label: "{{ item.name }}: gmake"
+  when: item.enabled | default(true) | bool
+  changed_when: true

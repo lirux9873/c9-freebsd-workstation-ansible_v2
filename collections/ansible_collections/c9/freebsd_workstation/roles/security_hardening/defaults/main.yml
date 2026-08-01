@@ -1,0 +1,3 @@
+---
+# Role defaults for security_hardening.
+security_hardening_enabled: true

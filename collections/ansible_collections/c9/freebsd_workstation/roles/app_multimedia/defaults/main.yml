@@ -1,0 +1,3 @@
+---
+# Role defaults for app_multimedia.
+app_multimedia_enabled: true

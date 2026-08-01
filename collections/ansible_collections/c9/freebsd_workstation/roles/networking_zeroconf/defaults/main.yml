@@ -1,0 +1,3 @@
+---
+# Role defaults for networking_zeroconf.
+networking_zeroconf_enabled: true

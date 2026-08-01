@@ -1,0 +1,3 @@
+---
+# Role defaults for development_git.
+development_git_enabled: true

@@ -1,0 +1,20 @@
+---
+workstation_base_font_packages: []
+
+workstation_profile_font_packages: []
+
+workstation_font_packages: >-
+  {{
+    (
+      workstation_base_font_packages
+      + workstation_profile_font_packages
+    )
+    | unique
+  }}
+
+workstation_custom_font_files: []
+
+workstation_font_directories:
+  - /usr/local/share/fonts
+  - /usr/local/share/fonts/TTF
+  - /usr/local/share/fonts/OTF

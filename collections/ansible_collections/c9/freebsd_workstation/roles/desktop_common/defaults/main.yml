@@ -1,0 +1,3 @@
+---
+# Role defaults for desktop_common.
+desktop_common_enabled: true

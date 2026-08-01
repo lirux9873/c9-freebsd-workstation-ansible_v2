@@ -1,0 +1,8 @@
+---
+- name: "hardware_dell_latitude_5591 | Placeholder"
+  ansible.builtin.debug:
+    msg: >-
+      Role hardware_dell_latitude_5591 is scaffolded but not implemented yet.
+      Replace this task with the role implementation when the feature is enabled.
+  when: hardware_dell_latitude_5591_enabled | bool
+  changed_when: false

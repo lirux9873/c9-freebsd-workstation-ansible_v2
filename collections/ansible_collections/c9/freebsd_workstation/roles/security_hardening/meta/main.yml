@@ -1,0 +1,11 @@
+---
+galaxy_info:
+  author: Daniel Peyer
+  description: Apply optional FreeBSD workstation hardening.
+  license: MIT
+  min_ansible_version: "2.15"
+  platforms:
+    - name: FreeBSD
+      versions:
+        - all
+dependencies: []

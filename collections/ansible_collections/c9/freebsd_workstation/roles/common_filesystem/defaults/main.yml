@@ -1,0 +1,3 @@
+---
+# Role defaults for common_filesystem.
+common_filesystem_enabled: true

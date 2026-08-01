@@ -1,0 +1,12 @@
+---
+- name: Configure Suckless desktop
+  hosts: localhost
+  connection: local
+  become: true
+  gather_facts: true
+  roles:
+    - c9.freebsd_workstation.desktop_common
+    - c9.freebsd_workstation.desktop_xorg
+    - c9.freebsd_workstation.common_fonts
+    - c9.freebsd_workstation.desktop_suckless
+    - c9.freebsd_workstation.validation_workstation

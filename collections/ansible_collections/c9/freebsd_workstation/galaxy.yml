@@ -1,0 +1,19 @@
+---
+namespace: c9
+name: freebsd_workstation
+version: 1.0.0
+readme: README.md
+authors:
+  - Daniel Peyer
+license:
+  - MIT
+tags:
+  - freebsd
+  - workstation
+  - desktop
+  - suckless
+dependencies: {}
+repository: https://github.com/lirux9873/c9-freebsd-workstation-ansible
+build_ignore:
+  - .git
+  - .gitignore

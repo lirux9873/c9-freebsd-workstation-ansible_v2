@@ -1,0 +1,48 @@
+---
+- name: Verify FreeBSD target
+  ansible.builtin.assert:
+    that:
+      - ansible_system == "FreeBSD"
+    fail_msg: "The desktop_suckless role supports FreeBSD only."
+
+- name: Validate repository list
+  ansible.builtin.assert:
+    that:
+      - flexipatch_items is sequence
+      - flexipatch_items | length > 0
+    fail_msg: "flexipatch_items must contain at least one repository."
+
+- name: Validate repository definitions
+  ansible.builtin.assert:
+    that:
+      - item.name is defined
+      - item.repo is defined
+      - item.src is defined
+      - item.final is defined
+      - item.version is defined
+      - item.src is match('^/')
+      - item.final is match('^/')
+      - item.src != '/'
+      - item.final != '/'
+      - item.src != item.final
+      - not item.final.startswith(item.src ~ '/')
+      - not item.src.startswith(item.final ~ '/')
+    fail_msg: "Unsafe or incomplete flexipatch item: {{ item | to_nice_yaml }}"
+  loop: "{{ flexipatch_items }}"
+  loop_control:
+    label: "{{ item.name | default('unnamed') }}"
+  when: item.enabled | default(true) | bool
+
+- name: Validate finalizer definition
+  ansible.builtin.assert:
+    that:
+      - flexipatch_finalizer.name is defined
+      - flexipatch_finalizer.repo is defined
+      - flexipatch_finalizer.src is defined
+      - flexipatch_finalizer.version is defined
+      - flexipatch_finalizer.script is defined
+      - flexipatch_finalizer.src is match('^/')
+      - flexipatch_finalizer.script is match('^/')
+      - flexipatch_finalizer.src != '/'
+      - flexipatch_finalizer.script.startswith(flexipatch_finalizer.src ~ '/')
+    fail_msg: "flexipatch_finalizer is incomplete or unsafe."

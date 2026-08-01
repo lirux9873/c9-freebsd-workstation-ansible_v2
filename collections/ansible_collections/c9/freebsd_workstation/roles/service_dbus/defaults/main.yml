@@ -1,0 +1,3 @@
+---
+# Role defaults for service_dbus.
+service_dbus_enabled: true

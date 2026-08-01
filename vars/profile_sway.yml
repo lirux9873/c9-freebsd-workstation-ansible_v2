@@ -1,0 +1,15 @@
+---
+workstation_profile_name: sway
+
+workstation_profile_font_packages:
+  - nerd-fonts
+  - noto-emoji
+
+workstation_font_packages: >-
+  {{
+    (
+      workstation_base_font_packages
+      + workstation_profile_font_packages
+    )
+    | unique
+  }}

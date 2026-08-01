@@ -1,0 +1,8 @@
+---
+- name: "common_localization | Placeholder"
+  ansible.builtin.debug:
+    msg: >-
+      Role common_localization is scaffolded but not implemented yet.
+      Replace this task with the role implementation when the feature is enabled.
+  when: common_localization_enabled | bool
+  changed_when: false

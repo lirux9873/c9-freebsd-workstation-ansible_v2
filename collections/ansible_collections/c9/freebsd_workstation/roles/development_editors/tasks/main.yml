@@ -1,0 +1,8 @@
+---
+- name: "development_editors | Placeholder"
+  ansible.builtin.debug:
+    msg: >-
+      Role development_editors is scaffolded but not implemented yet.
+      Replace this task with the role implementation when the feature is enabled.
+  when: development_editors_enabled | bool
+  changed_when: false

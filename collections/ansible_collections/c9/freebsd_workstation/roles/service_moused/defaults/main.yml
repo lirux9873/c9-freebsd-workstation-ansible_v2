@@ -1,0 +1,3 @@
+---
+# Role defaults for service_moused.
+service_moused_enabled: true

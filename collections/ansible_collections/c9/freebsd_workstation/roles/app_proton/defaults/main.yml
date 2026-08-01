@@ -1,0 +1,3 @@
+---
+# Role defaults for app_proton.
+app_proton_enabled: true

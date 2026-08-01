@@ -1,0 +1,8 @@
+---
+- name: "desktop_sway | Placeholder"
+  ansible.builtin.debug:
+    msg: >-
+      Role desktop_sway is scaffolded but not implemented yet.
+      Replace this task with the role implementation when the feature is enabled.
+  when: desktop_sway_enabled | bool
+  changed_when: false

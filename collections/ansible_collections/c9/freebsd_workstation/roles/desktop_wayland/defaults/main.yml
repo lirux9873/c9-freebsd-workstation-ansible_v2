@@ -1,0 +1,3 @@
+---
+# Role defaults for desktop_wayland.
+desktop_wayland_enabled: true

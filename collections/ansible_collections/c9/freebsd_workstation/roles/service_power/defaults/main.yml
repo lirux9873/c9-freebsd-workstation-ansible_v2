@@ -1,0 +1,3 @@
+---
+# Role defaults for service_power.
+service_power_enabled: true

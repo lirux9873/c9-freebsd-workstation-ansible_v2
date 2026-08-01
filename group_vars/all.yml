@@ -1,0 +1,52 @@
+---
+# User that owns checked-out source trees.
+workstation_user: "{{ ansible_user_id }}"
+workstation_group: "{{ ansible_user_gid | string }}"
+
+# Shared system-wide fonts required by desktop applications.
+workstation_base_font_packages:
+  - dejavu
+  - liberation-fonts-ttf
+  - noto
+  #- noto-emoji
+  #- x11-fonts/nerd-fonts     # Install the popular Nerd Fonts (including Hack/JetBrains)
+  #- x11-fonts/font-awesome   # Provides the classic status bar icons
+
+workstation_custom_font_files: []
+
+# Suckless desktop repositories.
+flexipatch_items:
+  - name: dwm
+    repo: https://github.com/lirux9873/dwm-flexipatch.git
+    src: /usr/local/src/dwm-flexipatch
+    final: /usr/local/src/dwm-final
+    version: master
+    enabled: true
+    make_args: []
+    install_args: []
+
+  - name: dmenu
+    repo: https://github.com/lirux9873/dmenu-flexipatch.git
+    src: /usr/local/src/dmenu-flexipatch
+    final: /usr/local/src/dmenu-final
+    version: master
+    enabled: true
+    make_args: []
+    install_args: []
+
+  - name: st
+    repo: https://github.com/lirux9873/st-flexipatch.git
+    src: /usr/local/src/st-flexipatch
+    final: /usr/local/src/st-final
+    version: master
+    enabled: true
+    make_args: []
+    install_args: []
+
+# Flexipatch finalizer repository.
+flexipatch_finalizer:
+  name: flexipatch-finalizer
+  repo: https://github.com/lirux9873/flexipatch-finalizer.git
+  src: /usr/local/src/flexipatch-finalizer
+  version: master
+  script: /usr/local/src/flexipatch-finalizer/flexipatch-finalizer_freebsd.sh

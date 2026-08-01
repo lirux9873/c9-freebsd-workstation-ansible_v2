@@ -1,0 +1,3 @@
+---
+# Role defaults for jails_vnet.
+jails_vnet_enabled: true

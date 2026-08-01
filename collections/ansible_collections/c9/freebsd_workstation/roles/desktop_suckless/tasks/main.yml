@@ -1,0 +1,18 @@
+---
+- name: Validate Suckless configuration
+  ansible.builtin.import_tasks: validate.yml
+
+- name: Install Suckless build dependencies
+  ansible.builtin.import_tasks: packages.yml
+
+- name: Clone Suckless repositories
+  ansible.builtin.import_tasks: repositories.yml
+
+- name: Finalize Suckless sources
+  ansible.builtin.import_tasks: finalize.yml
+
+- name: Build Suckless applications
+  ansible.builtin.import_tasks: build.yml
+
+- name: Install Suckless applications
+  ansible.builtin.import_tasks: install.yml

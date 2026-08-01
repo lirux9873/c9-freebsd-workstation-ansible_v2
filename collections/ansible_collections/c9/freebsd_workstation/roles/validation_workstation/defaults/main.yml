@@ -1,0 +1,3 @@
+---
+# Role defaults for validation_workstation.
+validation_workstation_enabled: true

@@ -1,0 +1,8 @@
+---
+- name: "app_file_manager | Placeholder"
+  ansible.builtin.debug:
+    msg: >-
+      Role app_file_manager is scaffolded but not implemented yet.
+      Replace this task with the role implementation when the feature is enabled.
+  when: app_file_manager_enabled | bool
+  changed_when: false

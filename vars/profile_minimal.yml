@@ -1,0 +1,13 @@
+---
+workstation_profile_name: minimal
+
+workstation_profile_font_packages: []
+
+workstation_font_packages: >-
+  {{
+    (
+      workstation_base_font_packages
+      + workstation_profile_font_packages
+    )
+    | unique
+  }}

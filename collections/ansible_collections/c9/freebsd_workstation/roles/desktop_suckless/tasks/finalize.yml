@@ -1,0 +1,46 @@
+---
+- name: Remove existing finalized source directories
+  ansible.builtin.file:
+    path: "{{ item.final }}"
+    state: absent
+  loop: "{{ flexipatch_items }}"
+  loop_control:
+    label: "{{ item.name }}: {{ item.final }}"
+  when:
+    - item.enabled | default(true) | bool
+    - suckless_flexipatch_recreate_final_directories | bool
+
+- name: Run flexipatch finalizer
+  ansible.builtin.command:
+    argv:
+      - "{{ flexipatch_finalizer.script }}"
+      - --directory
+      - "{{ item.src }}"
+      - --output
+      - "{{ item.final }}"
+      - --run
+  loop: "{{ flexipatch_items }}"
+  loop_control:
+    label: "{{ item.name }}: {{ item.src }} -> {{ item.final }}"
+  when: item.enabled | default(true) | bool
+  changed_when: true
+
+- name: Verify finalized source directories
+  ansible.builtin.stat:
+    path: "{{ item.final }}"
+  loop: "{{ flexipatch_items }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: item.enabled | default(true) | bool
+  register: finalized_source_stats
+
+- name: Assert finalized source directories exist
+  ansible.builtin.assert:
+    that:
+      - item.stat.exists
+      - item.stat.isdir
+    fail_msg: "Finalized directory was not created: {{ item.item.final }}"
+  loop: "{{ finalized_source_stats.results }}"
+  loop_control:
+    label: "{{ item.item.name | default('skipped') }}"
+  when: not item.skipped | default(false)

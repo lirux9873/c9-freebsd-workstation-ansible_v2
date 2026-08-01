@@ -1,0 +1,8 @@
+---
+- name: "validation_workstation | Placeholder"
+  ansible.builtin.debug:
+    msg: >-
+      Role validation_workstation is scaffolded but not implemented yet.
+      Replace this task with the role implementation when the feature is enabled.
+  when: validation_workstation_enabled | bool
+  changed_when: false

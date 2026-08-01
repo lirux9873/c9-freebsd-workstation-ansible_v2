@@ -1,0 +1,69 @@
+---
+- name: Create source parent directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ suckless_flexipatch_owner }}"
+    group: "{{ suckless_flexipatch_group }}"
+    mode: "0755"
+  loop: >-
+    {{
+      (
+        flexipatch_items
+        | selectattr('enabled', 'undefined')
+        | map(attribute='src')
+        | map('dirname')
+        | list
+      )
+      +
+      (
+        flexipatch_items
+        | selectattr('enabled', 'defined')
+        | selectattr('enabled', 'equalto', true)
+        | map(attribute='src')
+        | map('dirname')
+        | list
+      )
+      + [flexipatch_finalizer.src | dirname]
+      | unique
+    }}
+
+- name: Clone or update finalizer repository
+  ansible.builtin.git:
+    repo: "{{ flexipatch_finalizer.repo }}"
+    dest: "{{ flexipatch_finalizer.src }}"
+    version: "{{ flexipatch_finalizer.version }}"
+    update: "{{ suckless_flexipatch_git_update }}"
+    force: "{{ suckless_flexipatch_git_force }}"
+
+- name: Clone or update Suckless repositories
+  ansible.builtin.git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.src }}"
+    version: "{{ item.version }}"
+    update: "{{ suckless_flexipatch_git_update }}"
+    force: "{{ item.force | default(suckless_flexipatch_git_force) }}"
+  loop: "{{ flexipatch_items }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: item.enabled | default(true) | bool
+
+- name: Verify finalizer script
+  ansible.builtin.stat:
+    path: "{{ flexipatch_finalizer.script }}"
+  register: flexipatch_finalizer_script_stat
+
+- name: Assert finalizer script exists
+  ansible.builtin.assert:
+    that:
+      - flexipatch_finalizer_script_stat.stat.exists
+      - flexipatch_finalizer_script_stat.stat.isreg
+    fail_msg: "Finalizer script not found: {{ flexipatch_finalizer.script }}"
+
+- name: Make finalizer executable
+  ansible.builtin.file:
+    path: "{{ flexipatch_finalizer.script }}"
+    state: file
+    owner: "{{ suckless_flexipatch_owner }}"
+    group: "{{ suckless_flexipatch_group }}"
+    mode: "0755"

@@ -1,0 +1,3 @@
+---
+# Role defaults for desktop_sway.
+desktop_sway_enabled: true

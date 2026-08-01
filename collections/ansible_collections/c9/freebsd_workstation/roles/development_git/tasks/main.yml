@@ -1,0 +1,8 @@
+---
+- name: "development_git | Placeholder"
+  ansible.builtin.debug:
+    msg: >-
+      Role development_git is scaffolded but not implemented yet.
+      Replace this task with the role implementation when the feature is enabled.
+  when: development_git_enabled | bool
+  changed_when: false

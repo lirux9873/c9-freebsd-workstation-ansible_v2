@@ -1,0 +1,3 @@
+---
+# Role defaults for app_terminal_tools.
+app_terminal_tools_enabled: true

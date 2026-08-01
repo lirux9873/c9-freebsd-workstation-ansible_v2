@@ -1,0 +1,5 @@
+---
+- name: Install Suckless build packages
+  ansible.builtin.package:
+    name: "{{ suckless_flexipatch_packages }}"
+    state: present

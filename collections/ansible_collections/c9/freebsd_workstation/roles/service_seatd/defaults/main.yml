@@ -1,0 +1,3 @@
+---
+# Role defaults for service_seatd.
+service_seatd_enabled: true

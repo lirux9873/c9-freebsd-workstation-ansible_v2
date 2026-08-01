@@ -1,0 +1,8 @@
+---
+- name: Configure VirtualBox workstation profile
+  hosts: localhost
+  connection: local
+  become: true
+  gather_facts: true
+  roles:
+    - c9.freebsd_workstation.hardware_virtualbox

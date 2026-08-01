@@ -1,0 +1,8 @@
+---
+- name: "security_hardening | Placeholder"
+  ansible.builtin.debug:
+    msg: >-
+      Role security_hardening is scaffolded but not implemented yet.
+      Replace this task with the role implementation when the feature is enabled.
+  when: security_hardening_enabled | bool
+  changed_when: false

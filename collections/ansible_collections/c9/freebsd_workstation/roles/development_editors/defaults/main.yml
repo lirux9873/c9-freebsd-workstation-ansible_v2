@@ -1,0 +1,3 @@
+---
+# Role defaults for development_editors.
+development_editors_enabled: true
