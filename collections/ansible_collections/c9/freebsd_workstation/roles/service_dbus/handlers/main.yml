@@ -1,2 +1,9 @@
 ---
-# Handlers for service_dbus.
+- name: Restart D-Bus
+  ansible.builtin.service:
+    name: dbus
+    state: restarted
+  when:
+    - service_dbus_enabled | bool
+    - service_dbus_started | bool
+  listen: c9 freebsd restart dbus

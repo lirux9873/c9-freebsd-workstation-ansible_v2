@@ -1,3 +1,17 @@
 ---
-# Role defaults for hardware_virtualbox.
-hardware_virtualbox_enabled: true
+hardware_virtualbox_packages:
+  - virtualbox-ose-additions
+
+hardware_virtualbox_rc_file: /etc/rc.conf.local
+
+hardware_virtualbox_guest_enabled: true
+hardware_virtualbox_service_enabled: true
+
+hardware_virtualbox_disable_timesync: true
+
+hardware_virtualbox_services_started: true
+
+hardware_virtualbox_expected_product_patterns:
+  - VirtualBox
+  - innotek GmbH VirtualBox
+  - Oracle Corporation VirtualBox

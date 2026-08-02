@@ -1,3 +1,5 @@
 ---
 # Role defaults for service_dbus.
 service_dbus_enabled: true
+service_dbus_started: true
+service_dbus_rc_file: /etc/rc.conf.local

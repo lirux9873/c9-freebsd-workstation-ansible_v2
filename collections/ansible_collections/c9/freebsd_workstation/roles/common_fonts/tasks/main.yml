@@ -6,11 +6,13 @@
       - workstation_profile_font_packages is sequence
       - workstation_font_packages is sequence
       - workstation_custom_font_files is sequence
-    fail_msg: "The workstation font variables must be lists."
+      - workstation_font_directories is sequence
+    fail_msg: "Workstation font variables must be lists."
 
 - name: Install fontconfig
   community.general.pkgng:
-    name: fontconfig
+    name:
+      - fontconfig
     state: present
 
 - name: Create system font directories
@@ -21,12 +23,24 @@
     group: wheel
     mode: "0755"
   loop: "{{ workstation_font_directories }}"
+  loop_control:
+    label: "{{ item }}"
 
 - name: Install system font packages
   community.general.pkgng:
     name: "{{ workstation_font_packages }}"
     state: present
   when: workstation_font_packages | length > 0
+  register: common_fonts_package_result
+
+- name: Notify font cache handler after package installation
+  ansible.builtin.command:
+    argv:
+      - /usr/bin/true
+  changed_when: true
+  when:
+    - common_fonts_rebuild_cache_for_packages | bool
+    - common_fonts_package_result is changed
   notify: c9 freebsd rebuild font cache
 
 - name: Install custom system font files

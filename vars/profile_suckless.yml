@@ -1,9 +1,15 @@
 ---
 workstation_profile_name: suckless
 
+# FONTS
+workstation_base_font_packages:
+  - dejavu
+  - liberation-fonts-ttf
+  - noto-basic
+
 workstation_profile_font_packages:
-  - nerd-fonts
   - noto-emoji
+  - nerd-fonts
   - font-awesome
   - terminus-font
   - inconsolata-ttf
@@ -17,6 +23,19 @@ workstation_font_packages: >-
     | unique
   }}
 
+# XORG
+desktop_xorg_user: "{{ workstation_user }}"
+
+desktop_xorg_keyboard_layout: ch
+desktop_xorg_keyboard_model: pc105
+desktop_xorg_keyboard_variant: ""
+desktop_xorg_keyboard_options: ""
+
+desktop_xorg_install_virtualbox_config: true
+
+hardware_virtualbox_disable_timesync: true
+
+# SUCKLESS
 desktop_suckless_git_user: daniel   # root
 desktop_suckless_git_group: daniel  # wheel
 

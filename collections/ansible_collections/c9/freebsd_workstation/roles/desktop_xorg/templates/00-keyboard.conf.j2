@@ -1,0 +1,16 @@
+# BEGIN ANSIBLE MANAGED FILE: 00-keyboard.conf
+
+Section "InputClass"
+    Identifier "{{ desktop_xorg_keyboard_identifier }}"
+    MatchIsKeyboard "on"
+    Option "XkbModel" "{{ desktop_xorg_keyboard_model }}"
+    Option "XkbLayout" "{{ desktop_xorg_keyboard_layout }}"
+{% if desktop_xorg_keyboard_variant | length > 0 %}
+    Option "XkbVariant" "{{ desktop_xorg_keyboard_variant }}"
+{% endif %}
+{% if desktop_xorg_keyboard_options | length > 0 %}
+    Option "XkbOptions" "{{ desktop_xorg_keyboard_options }}"
+{% endif %}
+EndSection
+
+# END ANSIBLE MANAGED FILE: 00-keyboard.conf

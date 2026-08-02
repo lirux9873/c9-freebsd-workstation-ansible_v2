@@ -1,11 +1,12 @@
 ---
 galaxy_info:
   author: Daniel Peyer
-  description: Configure FreeBSD when running as a VirtualBox guest.
+  description: Configure FreeBSD as a VirtualBox guest
   license: MIT
-  min_ansible_version: "2.15"
+  min_ansible_version: "2.18"
   platforms:
     - name: FreeBSD
       versions:
         - all
+
 dependencies: []

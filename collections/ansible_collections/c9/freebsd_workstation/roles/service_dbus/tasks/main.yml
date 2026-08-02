@@ -1,8 +1,28 @@
 ---
-- name: "service_dbus | Placeholder"
-  ansible.builtin.debug:
-    msg: >-
-      Role service_dbus is scaffolded but not implemented yet.
-      Replace this task with the role implementation when the feature is enabled.
-  when: service_dbus_enabled | bool
-  changed_when: false
+- name: Verify FreeBSD target
+  ansible.builtin.assert:
+    that:
+      - ansible_system == "FreeBSD"
+    fail_msg: "The service_dbus role supports FreeBSD only."
+
+- name: Install D-Bus
+  community.general.pkgng:
+    name:
+      - dbus
+    state: present
+
+- name: Configure D-Bus startup
+  community.general.sysrc:
+    name: dbus_enable
+    value: "{{ 'YES' if service_dbus_enabled else 'NO' }}"
+    state: present
+    path: "{{ service_dbus_rc_file }}"
+  notify: c9 freebsd restart dbus
+
+- name: Ensure D-Bus is running
+  ansible.builtin.service:
+    name: dbus
+    state: started
+  when:
+    - service_dbus_enabled | bool
+    - service_dbus_started | bool

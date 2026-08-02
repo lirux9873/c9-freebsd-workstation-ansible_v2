@@ -1,0 +1,15 @@
+---
+- name: Configure FreeBSD VirtualBox Suckless workstation
+  hosts: localhost
+  connection: local
+  become: true
+  gather_facts: true
+
+  roles:
+    - role: c9.freebsd_workstation.common_validation
+    - role: c9.freebsd_workstation.service_dbus
+    - role: c9.freebsd_workstation.hardware_virtualbox
+    - role: c9.freebsd_workstation.common_fonts
+    - role: c9.freebsd_workstation.desktop_xorg
+    - role: c9.freebsd_workstation.desktop_suckless
+    - role: c9.freebsd_workstation.validation_workstation

@@ -1,2 +1,3 @@
 ---
-# Handlers for desktop_xorg.
+# Xorg is started per user session.
+# No system service restart is required.

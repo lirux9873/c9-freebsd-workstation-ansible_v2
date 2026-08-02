@@ -1,13 +1,33 @@
 ---
-# Role defaults for desktop_xorg.
-desktop_xorg_enabled: true
+desktop_xorg_user: ""
 
-desktop_packages:
-  - dunst
-  - feh
-  - picom
+desktop_xorg_packages:
   - xorg
+  - xauth
+  - xinit
+  - xf86-input-libinput
+  - mesa-dri
+  - mesa-libs
 
-desktop_config_directories:
-  - .config/dunst
-  - .config/picom
+desktop_xorg_user_groups:
+  - video
+
+desktop_xorg_config_directory: /usr/local/etc/X11/xorg.conf.d
+
+desktop_xorg_keyboard_config_enabled: true
+desktop_xorg_keyboard_config_file: 00-keyboard.conf
+
+desktop_xorg_keyboard_identifier: system-keyboard
+desktop_xorg_keyboard_layout: ch
+desktop_xorg_keyboard_model: pc105
+desktop_xorg_keyboard_variant: ""
+desktop_xorg_keyboard_options: ""
+
+desktop_xorg_install_virtualbox_config: false
+desktop_xorg_virtualbox_config_file: 20-virtualbox.conf
+desktop_xorg_virtualbox_driver: vboxvideo
+
+desktop_xorg_manage_xinitrc: false
+desktop_xorg_xinit_command: twm
+
+desktop_xorg_validate_installation: true

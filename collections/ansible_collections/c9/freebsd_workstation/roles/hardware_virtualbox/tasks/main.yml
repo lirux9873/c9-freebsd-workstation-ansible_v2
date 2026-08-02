@@ -1,8 +1,78 @@
 ---
-- name: "hardware_virtualbox | Placeholder"
-  ansible.builtin.debug:
-    msg: >-
-      Role hardware_virtualbox is scaffolded but not implemented yet.
-      Replace this task with the role implementation when the feature is enabled.
-  when: hardware_virtualbox_enabled | bool
+- name: Verify FreeBSD target
+  ansible.builtin.assert:
+    that:
+      - ansible_system == "FreeBSD"
+    fail_msg: "The hardware_virtualbox role supports FreeBSD only."
+
+- name: Read SMBIOS system product
+  ansible.builtin.command:
+    argv:
+      - /usr/sbin/sysctl
+      - -n
+      - hw.product
+  register: hardware_virtualbox_product
   changed_when: false
+  failed_when: false
+
+- name: Verify VirtualBox hardware
+  ansible.builtin.assert:
+    that:
+      - >-
+        hardware_virtualbox_expected_product_patterns
+        | select('in', hardware_virtualbox_product.stdout)
+        | list
+        | length > 0
+    fail_msg: >-
+      This system does not appear to be a VirtualBox guest.
+      Detected product: {{ hardware_virtualbox_product.stdout | default('unknown') }}
+
+- name: Install VirtualBox Guest Additions
+  community.general.pkgng:
+    name: "{{ hardware_virtualbox_packages }}"
+    state: present
+
+- name: Enable VirtualBox guest service
+  community.general.sysrc:
+    name: vboxguest_enable
+    value: "{{ 'YES' if hardware_virtualbox_guest_enabled else 'NO' }}"
+    state: present
+    path: "{{ hardware_virtualbox_rc_file }}"
+  notify: c9 freebsd restart virtualbox guest services
+
+- name: Enable VirtualBox service
+  community.general.sysrc:
+    name: vboxservice_enable
+    value: "{{ 'YES' if hardware_virtualbox_service_enabled else 'NO' }}"
+    state: present
+    path: "{{ hardware_virtualbox_rc_file }}"
+  notify: c9 freebsd restart virtualbox guest services
+
+- name: Configure VirtualBox time synchronization
+  community.general.sysrc:
+    name: vboxservice_flags
+    value: >-
+      {{
+        '--disable-timesync'
+        if hardware_virtualbox_disable_timesync
+        else ''
+      }}
+    state: present
+    path: "{{ hardware_virtualbox_rc_file }}"
+  notify: c9 freebsd restart virtualbox guest services
+
+- name: Start VirtualBox guest service
+  ansible.builtin.service:
+    name: vboxguest
+    state: started
+  when:
+    - hardware_virtualbox_guest_enabled | bool
+    - hardware_virtualbox_services_started | bool
+
+- name: Start VirtualBox service
+  ansible.builtin.service:
+    name: vboxservice
+    state: started
+  when:
+    - hardware_virtualbox_service_enabled | bool
+    - hardware_virtualbox_services_started | bool

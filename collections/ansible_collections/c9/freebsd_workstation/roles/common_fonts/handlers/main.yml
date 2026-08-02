@@ -3,7 +3,5 @@
   ansible.builtin.command:
     argv:
       - /usr/local/bin/fc-cache
-      - -f
-      - -v
   changed_when: true
   listen: c9 freebsd rebuild font cache

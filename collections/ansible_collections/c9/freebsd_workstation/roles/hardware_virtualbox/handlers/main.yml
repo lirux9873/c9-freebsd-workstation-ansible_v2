@@ -1,2 +1,16 @@
 ---
-# Handlers for hardware_virtualbox.
+- name: Restart VirtualBox service
+  ansible.builtin.service:
+    name: vboxservice
+    state: restarted
+  when:
+    - hardware_virtualbox_service_enabled | bool
+    - hardware_virtualbox_services_started | bool
+  listen: c9 freebsd restart virtualbox guest services
+
+- name: Report possible VirtualBox reboot requirement
+  ansible.builtin.debug:
+    msg: >-
+      VirtualBox Guest Additions configuration changed.
+      Reboot the guest if the kernel-side guest driver is not yet active.
+  listen: c9 freebsd restart virtualbox guest services

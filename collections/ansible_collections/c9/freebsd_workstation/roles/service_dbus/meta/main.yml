@@ -1,11 +1,12 @@
 ---
 galaxy_info:
   author: Daniel Peyer
-  description: Install and configure D-Bus.
+  description: Install and configure D-Bus on FreeBSD
   license: MIT
-  min_ansible_version: "2.15"
+  min_ansible_version: "2.18"
   platforms:
     - name: FreeBSD
       versions:
         - all
+
 dependencies: []

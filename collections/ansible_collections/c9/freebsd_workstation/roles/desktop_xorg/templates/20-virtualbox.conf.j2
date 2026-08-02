@@ -1,0 +1,8 @@
+# BEGIN ANSIBLE MANAGED FILE: 20-virtualbox.conf
+
+Section "Device"
+    Identifier "VirtualBox Graphics Adapter"
+    Driver "{{ desktop_xorg_virtualbox_driver }}"
+EndSection
+
+# END ANSIBLE MANAGED FILE: 20-virtualbox.conf

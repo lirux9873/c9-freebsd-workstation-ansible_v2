@@ -1,28 +1,139 @@
 ---
-- name: Install Xorg packages
+- name: Verify FreeBSD target
+  ansible.builtin.assert:
+    that:
+      - ansible_system == "FreeBSD"
+    fail_msg: "The desktop_xorg role supports FreeBSD only."
+
+- name: Validate Xorg role variables
+  ansible.builtin.assert:
+    that:
+      - desktop_xorg_user is string
+      - desktop_xorg_user | length > 0
+      - desktop_xorg_packages is sequence
+      - desktop_xorg_packages | length > 0
+      - desktop_xorg_user_groups is sequence
+      - desktop_xorg_config_directory is match('^/')
+    fail_msg: "The desktop_xorg role variables are incomplete or invalid."
+
+- name: Check desktop user
+  ansible.builtin.command:
+    argv:
+      - /usr/sbin/pw
+      - usershow
+      - "{{ desktop_xorg_user }}"
+  register: desktop_xorg_user_check
+  changed_when: false
+  failed_when: false
+
+- name: Verify desktop user exists
+  ansible.builtin.assert:
+    that:
+      - desktop_xorg_user_check.rc == 0
+    fail_msg: "Desktop user does not exist: {{ desktop_xorg_user }}"
+
+- name: Install complete Xorg desktop packages
   community.general.pkgng:
-    name: "{{ desktop_packages }}"
+    name: "{{ desktop_xorg_packages }}"
     state: present
-  when: desktop_xorg_enabled | bool
-  changed_when: false
 
-- name: Create desktop configuration directories
+- name: Add desktop user to Xorg groups
+  ansible.builtin.user:
+    name: "{{ desktop_xorg_user }}"
+    groups: "{{ desktop_xorg_user_groups }}"
+    append: true
+
+- name: Create Xorg configuration directory
   ansible.builtin.file:
-    path: "/home/daniel/{{ item }}"
+    path: "{{ desktop_xorg_config_directory }}"
     state: directory
-    owner: "daniel"
-    group: "daniel"
+    owner: root
+    group: wheel
     mode: "0755"
-  loop: "{{ desktop_config_directories }}"
-  when: desktop_xorg_enabled | bool
-  changed_when: false
 
-- name: Create .xinitrc file for Xorg session
+- name: Configure Xorg keyboard
   ansible.builtin.template:
-    src: xinitrc.j2
-    dest: "/home/daniel/.xinitrc"
-    owner: "daniel"
-    group: "daniel"
+    src: 00-keyboard.conf.j2
+    dest: >-
+      {{
+        desktop_xorg_config_directory
+        ~ '/'
+        ~ desktop_xorg_keyboard_config_file
+      }}
+    owner: root
+    group: wheel
+    mode: "0644"
+  when: desktop_xorg_keyboard_config_enabled | bool
+
+- name: Configure VirtualBox Xorg video driver
+  ansible.builtin.template:
+    src: 20-virtualbox.conf.j2
+    dest: >-
+      {{
+        desktop_xorg_config_directory
+        ~ '/'
+        ~ desktop_xorg_virtualbox_config_file
+      }}
+    owner: root
+    group: wheel
+    mode: "0644"
+  when: desktop_xorg_install_virtualbox_config | bool
+
+- name: Remove VirtualBox-specific Xorg configuration
+  ansible.builtin.file:
+    path: >-
+      {{
+        desktop_xorg_config_directory
+        ~ '/'
+        ~ desktop_xorg_virtualbox_config_file
+      }}
+    state: absent
+  when: not desktop_xorg_install_virtualbox_config | bool
+
+- name: Read desktop user information
+  ansible.builtin.getent:
+    database: passwd
+    key: "{{ desktop_xorg_user }}"
+  when: desktop_xorg_manage_xinitrc | bool
+
+- name: Set desktop user home directory
+  ansible.builtin.set_fact:
+    desktop_xorg_user_home: >-
+      {{
+        ansible_facts.getent_passwd[desktop_xorg_user][4]
+      }}
+  when: desktop_xorg_manage_xinitrc | bool
+
+- name: Configure user xinitrc
+  ansible.builtin.copy:
+    dest: "{{ desktop_xorg_user_home }}/.xinitrc"
+    content: |
+      #!/bin/sh
+
+      exec {{ desktop_xorg_xinit_command }}
+    owner: "{{ desktop_xorg_user }}"
+    group: "{{ desktop_xorg_user }}"
     mode: "0755"
-  when: desktop_xorg_enabled | bool
-  changed_when: false
+  when: desktop_xorg_manage_xinitrc | bool
+
+- name: Check Xorg binary
+  ansible.builtin.stat:
+    path: /usr/local/bin/Xorg
+  register: desktop_xorg_binary
+  when: desktop_xorg_validate_installation | bool
+
+- name: Check startx binary
+  ansible.builtin.stat:
+    path: /usr/local/bin/startx
+  register: desktop_xorg_startx_binary
+  when: desktop_xorg_validate_installation | bool
+
+- name: Validate Xorg installation
+  ansible.builtin.assert:
+    that:
+      - desktop_xorg_binary.stat.exists
+      - desktop_xorg_binary.stat.isreg
+      - desktop_xorg_startx_binary.stat.exists
+      - desktop_xorg_startx_binary.stat.isreg
+    fail_msg: "Xorg or startx was not installed correctly."
+  when: desktop_xorg_validate_installation | bool
