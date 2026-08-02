@@ -1,7 +1,7 @@
 ---
 - name: Install Suckless applications
   community.general.make:
-    chdir: "{{ item.src }}"
+    chdir: "{{ item.final }}"
     target: install
     make: gmake
   loop: "{{ suckless_items }}"

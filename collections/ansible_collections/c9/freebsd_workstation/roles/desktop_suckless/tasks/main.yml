@@ -11,8 +11,8 @@
 - name: Build Suckless applications
   ansible.builtin.import_tasks: build.yml
 
+- name: Finalize Suckless applications
+  ansible.builtin.import_tasks: finalize.yml
+
 - name: Install Suckless applications
   ansible.builtin.import_tasks: install.yml
-
-- name: Finalize Suckless sources
-  ansible.builtin.import_tasks: finalize.yml
