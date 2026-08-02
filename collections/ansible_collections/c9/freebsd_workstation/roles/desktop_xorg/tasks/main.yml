@@ -1,8 +1,28 @@
 ---
-- name: "desktop_xorg | Placeholder"
-  ansible.builtin.debug:
-    msg: >-
-      Role desktop_xorg is scaffolded but not implemented yet.
-      Replace this task with the role implementation when the feature is enabled.
+- name: Install Xorg packages
+  community.general.pkgng:
+    name: "{{ desktop_packages }}"
+    state: present
+  when: desktop_xorg_enabled | bool
+  changed_when: false
+
+- name: Create desktop configuration directories
+  ansible.builtin.file:
+    path: "/home/daniel/{{ item }}"
+    state: directory
+    owner: "{{ workstation_user }}"
+    group: "{{ workstation_user }}"
+    mode: "0755"
+  loop: "{{ desktop_config_directories }}"
+  when: desktop_xorg_enabled | bool
+  changed_when: false
+
+- name: Create .xinitrc file for Xorg session
+  ansible.builtin.template:
+    src: xinitrc.j2
+    dest: "/home/daniel/.xinitrc"
+    owner: "daniel"
+    group: "daniel"
+    mode: "0755"
   when: desktop_xorg_enabled | bool
   changed_when: false

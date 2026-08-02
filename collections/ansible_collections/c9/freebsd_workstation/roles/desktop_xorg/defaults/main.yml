@@ -1,3 +1,13 @@
 ---
 # Role defaults for desktop_xorg.
 desktop_xorg_enabled: true
+
+desktop_packages:
+  - dunst
+  - feh
+  - picom
+  - xorg
+
+desktop_config_directories:
+  - .config/dunst
+  - .config/picom
