@@ -65,16 +65,49 @@
     group: "{{ suckless_flexipatch_group }}"
     mode: "0755"
 
-- name: Clone or update Flexipatch finalizer repository
+#- name: Clone or update Flexipatch finalizer repository
+#  ansible.builtin.git:
+#    repo: "{{ flexipatch_finalizer.repo }}"
+#    dest: "{{ flexipatch_finalizer.src }}"
+#    version: "{{ flexipatch_finalizer.version | default('master') }}"
+#    update: "{{ suckless_flexipatch_git_update }}"
+#    force: "{{ suckless_flexipatch_git_force }}"
+#    key_file: "{{ desktop_suckless_git_private_key }}"
+#    accept_hostkey: "{{ desktop_suckless_git_accept_hostkey }}"
+#  register: flexipatch_finalizer_repository_result
+
+# Start Debug
+- name: Show variable value
+  ansible.builtin.debug:
+    var: flexipatch_finalizer.repo
+
+- name: Show variable value
+  ansible.builtin.debug:
+    var: suckless_flexipatch_git_update
+
+- name: Show variable value
+  ansible.builtin.debug:
+    var: suckless_flexipatch_git_force
+
+- name: Show variable value
+  ansible.builtin.debug:
+    var: desktop_suckless_git_private_key
+
+- name: Show variable value
+  ansible.builtin.debug:
+    var: desktop_suckless_git_accept_hostkey
+# End Debug
+
+- name: Clone private flexipatch-finalizer repository to system source
   ansible.builtin.git:
-    repo: "{{ flexipatch_finalizer.repo }}"
-    dest: "{{ flexipatch_finalizer.src }}"
-    version: "{{ flexipatch_finalizer.version | default('master') }}"
-    update: "{{ suckless_flexipatch_git_update }}"
-    force: "{{ suckless_flexipatch_git_force }}"
-    key_file: "{{ desktop_suckless_git_private_key }}"
-    accept_hostkey: "{{ desktop_suckless_git_accept_hostkey }}"
-  register: flexipatch_finalizer_repository_result
+    repo: 'git@github.com:lirux9873/flexipatch-finalizer.git'
+    dest: "/usr/local/src/flexipatch-finalizer"
+    version: master
+    accept_hostkey: yes
+    # TODO: Use a dedicated key for this repository instead of borrowing the user's key
+    key_file: "/home/daniel/.ssh/id_ed25519"  # Borrowing the key to authenticate
+    clone: yes
+    update: yes
 
 - name: Clone or update Suckless Flexipatch repositories
   ansible.builtin.git:
