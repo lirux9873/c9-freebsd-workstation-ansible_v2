@@ -27,4 +27,6 @@ desktop_suckless_git_known_hosts: /home/daniel/.ssh/known_hosts
 desktop_suckless_git_accept_hostkey: true
 desktop_suckless_git_manage_key_permissions: true
 
-desktop_suckless_git_known_hosts_entries: []
+desktop_suckless_git_known_hosts_entries:
+  - name: github.com
+    key: "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl"
