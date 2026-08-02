@@ -46,7 +46,7 @@ flexipatch_items:
 # Flexipatch finalizer repository.
 flexipatch_finalizer:
   name: flexipatch-finalizer
-  repo: https://github.com/lirux9873/flexipatch-finalizer.git
+  repo: git@github.com:lirux9873/flexipatch-finalizer.git
   src: /usr/local/src/flexipatch-finalizer
   version: master
   script: /usr/local/src/flexipatch-finalizer/flexipatch-finalizer_freebsd.sh
