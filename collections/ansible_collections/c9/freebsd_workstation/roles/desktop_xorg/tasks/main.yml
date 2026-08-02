@@ -10,8 +10,8 @@
   ansible.builtin.file:
     path: "/home/daniel/{{ item }}"
     state: directory
-    owner: "{{ workstation_user }}"
-    group: "{{ workstation_user }}"
+    owner: "daniel"
+    group: "daniel"
     mode: "0755"
   loop: "{{ desktop_config_directories }}"
   when: desktop_xorg_enabled | bool
