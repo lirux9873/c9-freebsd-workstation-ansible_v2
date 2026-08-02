@@ -1,11 +1,11 @@
 ---
-- name: Install finalized Suckless applications
-  ansible.builtin.command:
-    argv: "{{ [suckless_flexipatch_make_command, 'install'] + (item.install_args | default([])) }}"
-    chdir: "{{ item.final }}"
-  environment: "{{ suckless_flexipatch_make_environment }}"
-  loop: "{{ flexipatch_items }}"
+- name: Install Suckless applications
+  community.general.make:
+    chdir: "{{ item.src }}"
+    target: install
+    make: gmake
+  loop: "{{ suckless_items }}"
   loop_control:
-    label: "{{ item.name }}: gmake install"
+    label: "Install {{ item.name }} with gmake install"
   when: item.enabled | default(true) | bool
   changed_when: true

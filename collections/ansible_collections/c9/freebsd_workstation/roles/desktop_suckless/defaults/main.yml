@@ -26,12 +26,45 @@ suckless_flexipatch_git_update: true
 suckless_flexipatch_git_force: false
 
 suckless_flexipatch_recreate_final_directories: true
-suckless_flexipatch_make_command: /usr/local/bin/gmake
+suckless_make_command: /usr/local/bin/gmake
 suckless_flexipatch_make_environment:
   PREFIX: /usr/local
 
-flexipatch_items: []
-flexipatch_finalizer: {}
+# Suckless desktop repositories.
+suckless_items:
+  - name: dwm
+    repo: git@github.com:lirux9873/dwm-flexipatch.git
+    src: /usr/local/src/dwm-flexipatch
+    final: /usr/local/src/dwm-final
+    version: master
+    enabled: true
+    make_args: []
+    install_args: []
+
+  - name: dmenu
+    repo: git@github.com:lirux9873/dmenu-flexipatch.git
+    src: /usr/local/src/dmenu-flexipatch
+    final: /usr/local/src/dmenu-final
+    version: master
+    enabled: true
+    make_args: []
+    install_args: []
+
+  - name: st
+    repo: git@github.com:lirux9873/st-flexipatch.git
+    src: /usr/local/src/st-flexipatch
+    final: /usr/local/src/st-final
+    version: master
+    enabled: true
+    make_args: []
+    install_args: []
+
+flexipatch_finalizer:
+  name: flexipatch-finalizer
+  repo: git@github.com:lirux9873/flexipatch-finalizer.git
+  src: /usr/local/src/flexipatch-finalizer
+  version: master
+  script: /usr/local/src/flexipatch-finalizer/flexipatch-finalizer_freebsd.sh
 
 desktop_suckless_git_user: daniel   # root
 desktop_suckless_git_group: daniel  # wheel

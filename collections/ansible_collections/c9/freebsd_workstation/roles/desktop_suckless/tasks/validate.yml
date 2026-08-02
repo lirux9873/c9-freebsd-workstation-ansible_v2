@@ -8,9 +8,9 @@
 - name: Validate repository list
   ansible.builtin.assert:
     that:
-      - flexipatch_items is sequence
-      - flexipatch_items | length > 0
-    fail_msg: "flexipatch_items must contain at least one repository."
+      - suckless_items is sequence
+      - suckless_items | length > 0
+    fail_msg: "suckless_items must contain at least one repository."
 
 - name: Validate repository definitions
   ansible.builtin.assert:
@@ -28,7 +28,7 @@
       - not item.final.startswith(item.src ~ '/')
       - not item.src.startswith(item.final ~ '/')
     fail_msg: "Unsafe or incomplete flexipatch item: {{ item | to_nice_yaml }}"
-  loop: "{{ flexipatch_items }}"
+  loop: "{{ suckless_items }}"
   loop_control:
     label: "{{ item.name | default('unnamed') }}"
   when: item.enabled | default(true) | bool

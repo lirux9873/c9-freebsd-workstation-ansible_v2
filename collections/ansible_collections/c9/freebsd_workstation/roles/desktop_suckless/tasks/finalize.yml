@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: "{{ item.final }}"
     state: absent
-  loop: "{{ flexipatch_items }}"
+  loop: "{{ suckless_items }}"
   loop_control:
     label: "{{ item.name }}: {{ item.final }}"
   when:
@@ -19,7 +19,7 @@
       - --output
       - "{{ item.final }}"
       - --run
-  loop: "{{ flexipatch_items }}"
+  loop: "{{ suckless_items }}"
   loop_control:
     label: "{{ item.name }}: {{ item.src }} -> {{ item.final }}"
   when: item.enabled | default(true) | bool
@@ -28,7 +28,7 @@
 - name: Verify finalized source directories
   ansible.builtin.stat:
     path: "{{ item.final }}"
-  loop: "{{ flexipatch_items }}"
+  loop: "{{ suckless_items }}"
   loop_control:
     label: "{{ item.name }}"
   when: item.enabled | default(true) | bool

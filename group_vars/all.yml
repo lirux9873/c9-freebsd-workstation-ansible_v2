@@ -15,7 +15,7 @@ workstation_base_font_packages:
 workstation_custom_font_files: []
 
 # Suckless desktop repositories.
-flexipatch_items:
+suckless_items:
   - name: dwm
     repo: git@github.com:lirux9873/dwm-flexipatch.git
     src: /usr/local/src/dwm-flexipatch

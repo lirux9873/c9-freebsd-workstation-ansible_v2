@@ -85,7 +85,7 @@
     force: "{{ item.force | default(suckless_flexipatch_git_force) }}"
     key_file: "{{ desktop_suckless_git_private_key }}"
     accept_hostkey: "{{ desktop_suckless_git_accept_hostkey }}"
-  loop: "{{ flexipatch_items }}"
+  loop: "{{ suckless_items }}"
   loop_control:
     label: "{{ item.name }}: {{ item.repo }}"
   when: item.enabled | default(true) | bool
@@ -106,7 +106,7 @@
     owner: "{{ suckless_flexipatch_owner }}"
     group: "{{ suckless_flexipatch_group }}"
     recurse: true
-  loop: "{{ flexipatch_items }}"
+  loop: "{{ suckless_items }}"
   loop_control:
     label: "{{ item.name }}"
   when: item.enabled | default(true) | bool
