@@ -33,8 +33,8 @@ suckless_flexipatch_make_environment:
 flexipatch_items: []
 flexipatch_finalizer: {}
 
-desktop_suckless_git_user: root
-desktop_suckless_git_group: wheel
+desktop_suckless_git_user: daniel   # root
+desktop_suckless_git_group: daniel  # wheel
 
 desktop_suckless_git_ssh_directory: /home/daniel/.ssh
 desktop_suckless_git_private_key: /home/daniel/.ssh/id_ed25519
