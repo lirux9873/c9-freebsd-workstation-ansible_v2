@@ -69,7 +69,7 @@
   ansible.builtin.git:
     repo: "{{ flexipatch_finalizer.repo }}"
     dest: "{{ flexipatch_finalizer.src }}"
-    version: "{{ flexipatch_finalizer.version | default('HEAD') }}"
+    version: "{{ flexipatch_finalizer.version | default('master') }}"
     update: "{{ suckless_flexipatch_git_update }}"
     force: "{{ suckless_flexipatch_git_force }}"
     key_file: "{{ desktop_suckless_git_private_key }}"
@@ -80,7 +80,7 @@
   ansible.builtin.git:
     repo: "{{ item.repo }}"
     dest: "{{ item.src }}"
-    version: "{{ item.version | default('HEAD') }}"
+    version: "{{ item.version | default('master') }}"
     update: "{{ suckless_flexipatch_git_update }}"
     force: "{{ item.force | default(suckless_flexipatch_git_force) }}"
     key_file: "{{ desktop_suckless_git_private_key }}"
