@@ -12,6 +12,7 @@ hardware_virtualbox_disable_timesync: true
 hardware_virtualbox_services_started: true
 
 hardware_virtualbox_expected_product_patterns:
+  - vbox
   - VirtualBox
   - innotek GmbH VirtualBox
   - Oracle Corporation VirtualBox

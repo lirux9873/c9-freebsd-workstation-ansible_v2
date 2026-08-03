@@ -10,7 +10,7 @@
     argv:
       - /usr/sbin/sysctl
       - -n
-      - hw.product
+      - kern.vm_guest
   register: hardware_virtualbox_product
   changed_when: false
   failed_when: false
