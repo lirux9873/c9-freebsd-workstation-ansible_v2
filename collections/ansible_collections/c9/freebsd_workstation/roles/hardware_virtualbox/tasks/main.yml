@@ -15,6 +15,10 @@
   changed_when: false
   failed_when: false
 
+- name: Show hardware_virtualbox_product
+  ansible.builtin.debug:
+    var: hardware_virtualbox_product
+
 - name: Verify VirtualBox hardware
   ansible.builtin.assert:
     that:
