@@ -12,8 +12,8 @@
       - -n
       - kern.vm_guest
   register: hardware_virtualbox_product
-  changed_when: false
-  failed_when: false
+  #changed_when: false
+  #failed_when: false
 
 - name: Show hardware_virtualbox_product
   ansible.builtin.debug:
