@@ -8,7 +8,7 @@
 - name: Read SMBIOS system product
   ansible.builtin.command:
     argv:
-      - /usr/sbin/sysctl
+      - /sbin/sysctl
       - -n
       - kern.vm_guest
   register: hardware_virtualbox_product
